@@ -2,10 +2,11 @@ import pandas as pd
 import numpy as np
 
 
-def handle_missing_values(df):
-    df['AgeFilled'] = df['Age'].fillna(df['Age'].median())
-    df['Embarked'] = df['Embarked'].fillna(df['Embarked'].mode()[0])
-    df['Fare'] = df['Fare'].fillna(df['Fare'].median())
+def handle_missing_values(df, age_median, fare_median, embarked_mode):
+
+    df['AgeFilled'] = df['Age'].fillna(age_median)
+    df['Embarked'] = df['Embarked'].fillna(embarked_mode)
+    df['Fare'] = df['Fare'].fillna(fare_median)
     df['Cabin'] = df['Cabin'].fillna('U')
     return df
 
@@ -27,8 +28,7 @@ def feature_engineering (df):
     df['FamilySize'] = df['SibSp'] + df['Parch'] + 1
     df['FarePerPerson'] = df['Fare'] / df['FamilySize']
     df['IsAlone'] = (df['FamilySize'] == 1).astype(int)
-    df['IsChild'] = (df['Age'] < 1).astype(int)
-    df["TicketGroup"] = df.groupby("Ticket")["Ticket"].transform("count")
+    df['IsChild'] = (df['AgeFilled'] < 18).astype(int)
 
     df['CabinCat'] = df['Cabin'].str[0]
 
@@ -40,8 +40,12 @@ def feature_engineering (df):
     df['Title'] = df['Title'].map({'Mr': 0, 'Miss': 1, 'Mrs': 2, 'Master': 3, 'Rare': 4}).astype('category')
     return df
 
-def preprocess_data(df):
-    df = handle_missing_values(df)
+def preprocess_data(df, train_df):
+    age_median = train_df["Age"].median()
+    fare_median = train_df["Fare"].median()
+    embarked_mode = train_df["Embarked"].mode()[0]
+
+    df = handle_missing_values(df, age_median, fare_median, embarked_mode)
     df = feature_engineering(df)
     df = encode_categorical_variables(df)
     return df
