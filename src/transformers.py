@@ -36,7 +36,7 @@ class FeatureEngineeringTransformer(BaseEstimator, TransformerMixin):
 
         X["CabinCat"] = X["Cabin"].str[0]
 
-        X["Title"] = X["Name"].str.extract(' ([A-Za-z]+)\.', expand=False)
+        X["Title"] = X["Name"].str.extract(' ([A-Za-z]+)\\.', expand=False)
         X["Title"] = X["Title"].replace(
             ["Lady","Countess","Capt","Col","Don","Dr","Major","Rev","Sir","Jonkheer","Dona"],
             "Rare"
