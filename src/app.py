@@ -17,8 +17,8 @@ sys.path.insert(0, str(ROOT))
 from src.preprocess import preprocess_data
 
 
-model = joblib.load("../models/model.pkl")
-titanic_train_df = pd.read_csv('../data/train.csv')
+model = joblib.load(ROOT / "models" / "model.pkl")
+titanic_train_df = pd.read_csv(ROOT / "data"/ "train.csv")
 raw_data = titanic_train_df.copy()
 
 titanic_train_df = preprocess_data (titanic_train_df, titanic_train_df)
