@@ -296,8 +296,6 @@ with tab3:
             "Embarked": [embarked[0]]
         })
 
-        print(new_row)
-
         prediction = model.predict(new_row)
 
         if prediction[0] == 1:

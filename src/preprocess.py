@@ -5,7 +5,6 @@ import numpy as np
 def handle_missing_values(df, age_median, fare_median, embarked_mode):
 
     df['AgeFilled'] = df['Age'].fillna(age_median)
-    print("Age median: ", age_median)
     df['Embarked'] = df['Embarked'].fillna(embarked_mode)
     df['Fare'] = df['Fare'].fillna(fare_median)
     df['Cabin'] = df['Cabin'].fillna('U')
