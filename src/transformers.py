@@ -17,7 +17,6 @@ class MissingValueTransformer(BaseEstimator, TransformerMixin):
         X["Fare"] = X["Fare"].fillna(self.fare_median_)
         X["Embarked"] = X["Embarked"].fillna(self.embarked_mode_)
         X["Cabin"] = X["Cabin"].fillna("U")
-
         return X
     
 class FeatureEngineeringTransformer(BaseEstimator, TransformerMixin):
@@ -35,8 +34,9 @@ class FeatureEngineeringTransformer(BaseEstimator, TransformerMixin):
         X["IsChild"] = (X["AgeFilled"] < 18).astype("int")
 
         X["CabinCat"] = X["Cabin"].str[0]
-
-        X["Title"] = X["Name"].str.extract(' ([A-Za-z]+)\\.', expand=False)
+    
+        X["Title"] = X["Name"].str.extract(' ([A-Za-z]+)\.', expand=False)
+        print(X["Title"].unique())
         X["Title"] = X["Title"].replace(
             ["Lady","Countess","Capt","Col","Don","Dr","Major","Rev","Sir","Jonkheer","Dona"],
             "Rare"
